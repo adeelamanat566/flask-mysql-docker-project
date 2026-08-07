@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask MySQL App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Flask + MySQL Website</h1>
+        <p class="subtitle">Data entered here will be saved in MySQL.</p>
+
+        <div class="card">
+            <h2>Add User</h2>
+
+            <form action="/add" method="POST">
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter name"
+                    required
+                >
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    required
+                >
+
+                <button type="submit">Save User</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Users From MySQL</h2>
+
+            {% if users %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No users found.</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
