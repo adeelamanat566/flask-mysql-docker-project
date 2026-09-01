@@ -1,7 +1,7 @@
 pipeline { 
-    agentany
-    stages{
-        stage('build'){
+    agent any
+    stages {
+        stage ('build'){
             steps {
             sh 'docker compose build'
             sh 'docker compose ps'
@@ -17,7 +17,7 @@ pipeline {
             }
         
         }
-        stage('continues') {
+        stage ('continues') {
             steps {
                 input(
                     message: 'continues',
@@ -35,7 +35,7 @@ pipeline {
         
         
         }
-        stage('deploy'){
+        stage ('deploy'){
             steps {
                 sh 'docker compose up -d'
             
@@ -46,13 +46,13 @@ pipeline {
     
     }
     post {
-        always{
+        always {
             echo "running "
         }
-        success{
+        success {
             echo "success"
         }
-        failure{
+        failure {
             echo "faile"
         }
     
