@@ -36,8 +36,6 @@ def home():
 
     return render_template("index.html", users=users)
 
-
-```python
 @app.route("/add", methods=["POST"])
 def add_user():
     name = request.form["name"]
@@ -61,9 +59,6 @@ def add_user():
     conn.close()
 
     return redirect(url_for("home"))
-```
-
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
