@@ -42,14 +42,19 @@ def add_user():
     name = request.form["name"]
     email = request.form["email"]
 
-    conn = get_db_connection()
-    cursor = conn.cursor()
+   phone = request.form["phone"]
+address = request.form["address"]
 
-    cursor.execute(
-        "INSERT INTO users (name, email) VALUES (%s, %s)",
-        (name, email)
-    )
+conn = get_db_connection()
+cursor = conn.cursor()
 
+cursor.execute(
+    """
+    INSERT INTO users (name, email, phone, address)
+    VALUES (%s, %s, %s, %s)
+    """,
+    (name, email, phone, address)
+)
     conn.commit()
     cursor.close()
     conn.close()
