@@ -37,29 +37,32 @@ def home():
     return render_template("index.html", users=users)
 
 
+```python
 @app.route("/add", methods=["POST"])
 def add_user():
     name = request.form["name"]
     email = request.form["email"]
+    phone = request.form["phone"]
+    address = request.form["address"]
 
-   phone = request.form["phone"]
-address = request.form["address"]
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
-conn = get_db_connection()
-cursor = conn.cursor()
+    cursor.execute(
+        """
+        INSERT INTO users (name, email, phone, address)
+        VALUES (%s, %s, %s, %s)
+        """,
+        (name, email, phone, address)
+    )
 
-cursor.execute(
-    """
-    INSERT INTO users (name, email, phone, address)
-    VALUES (%s, %s, %s, %s)
-    """,
-    (name, email, phone, address)
-)
     conn.commit()
     cursor.close()
     conn.close()
 
     return redirect(url_for("home"))
+```
+
 
 
 if __name__ == "__main__":
