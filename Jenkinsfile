@@ -1,14 +1,14 @@
 pipeline { 
     agent any
     stages {
-        stage ('build'){
+        stage('build'){
             steps {
             sh 'docker compose build'
             sh 'docker compose ps'
             
             }
         }
-        stage {
+        stage('TESTING'){
             steps {
                 echo 'Starting application...' 
                 sh 'docker compose up -d' 
@@ -17,7 +17,7 @@ pipeline {
             }
         
         }
-        stage ('continues') {
+        stage('continues') {
             steps {
                 input(
                     message: 'continues',
@@ -35,7 +35,7 @@ pipeline {
         
         
         }
-        stage ('deploy'){
+        stage('deploy'){
             steps {
                 sh 'docker compose up -d'
             
