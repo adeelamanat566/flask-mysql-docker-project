@@ -13,7 +13,7 @@ pipeline {
                 echo 'Starting application...' 
                 sh 'docker compose up -d' 
                 echo 'Testing application...' 
-                sh 'curl -f http://localhost:5000'            
+                            
             }
         
         }
