@@ -1,0 +1,30 @@
+services:
+  sql:
+    container_name: sql
+    image: mysql:8.4
+      
+    environment:
+      MYSQL_DATABASE: deveops
+      MYSQL_ROOT_PASSWORD: adeel
+    ports:
+        - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro    
+    
+    
+  flask:
+    container_name: flask
+    build:
+        context: .
+    environment:
+      MYSQL_HOST: sql  
+      MYSQL_PASSWORD: adeel
+      MYSQL_DATABASE: deveops
+      MYSQL_USER: root
+    ports:
+      - "5000:5000"
+    depends_on:
+      - sql
+volumes: 
+  mysql_data:
