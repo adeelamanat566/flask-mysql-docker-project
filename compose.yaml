@@ -1,1 +1,41 @@
 
+services:
+  flask:
+    container_name: adeel
+    build:
+      context: .
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: taskdb
+    
+        
+    healthcheck: 
+      test: ["CMD","curl","-f","http://localhost:5000/health"] 
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      mysql: 
+        condition: service_healthy
+  
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: taskdb
+    healthcheck:
+      test: ["CMD","mysqladmin","ping","-h","localhost","-uroot","-proot"] 
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+        - adel:/var/lib/mysql
+        - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro 
+
+volumes:
+  adel:
