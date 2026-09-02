@@ -1,13 +1,14 @@
+CREATE DATABASE IF NOT EXISTS taskdb;
 
-CREATE DATABASE IF NOT EXISTS deveops;
+USE taskdb;
 
-USE deveops;
-
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    address VARCHAR(255) NOT NULL
+    title VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL
 );
 
+INSERT INTO tasks (title, status) VALUES
+('Learn Docker', 'Pending'),
+('Learn Docker Compose', 'Pending'),
+('Learn Jenkins', 'Completed');
