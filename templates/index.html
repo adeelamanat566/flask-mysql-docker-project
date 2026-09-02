@@ -1,111 +1,52 @@
-```html
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask MySQL App</title>
+    <title>Task Manager</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>Flask + MySQL Website</h1>
-        <p class="subtitle">Data entered here will be saved in MySQL.</p>
+    <h1>Task Manager</h1>
 
-        <div class="card">
-            <h2>Add User</h2>
+    <form action="/add" method="POST">
+        <input
+            type="text"
+            name="title"
+            placeholder="Enter task"
+            required
+        >
+        <button type="submit">Add Task</button>
+    </form>
 
-            <form action="/add" method="POST">
+    <h2>Tasks</h2>
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter name"
-                    required
-                >
+    {% for task in tasks %}
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    required
-                >
+    <div class="task">
 
-                <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Enter phone number"
-                    required
-                >
-
-                <input
-                    type="text"
-                    name="address"
-                    placeholder="Enter address"
-                    required
-                >
-
-                <button type="submit">Save User</button>
-
-            </form>
+        <div>
+            <strong>{{ task.title }}</strong>
+            <span>{{ task.status }}</span>
         </div>
 
-        <div class="card">
-            <h2>Users From MySQL</h2>
+        {% if task.status == "Pending" %}
+        <form action="/complete/{{ task.id }}" method="POST">
+            <button type="submit">Complete</button>
+        </form>
+        {% endif %}
 
-            {% if users %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for user in users %}
-                        <tr>
-                            <td>{{ user.id }}</td>
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.phone }}</td>
-                            <td>{{ user.address }}</td>
-
-                            <td>
-                                <form action="/delete/{{ user.id }}" method="POST">
-                                    <button
-                                        type="submit"
-                                        onclick="return confirm('Are you sure you want to delete this user?');">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-
-                </table>
-            {% else %}
-                <p>No users found.</p>
-            {% endif %}
-
-        </div>
+        <form action="/delete/{{ task.id }}" method="POST">
+            <button type="submit">Delete</button>
+        </form>
 
     </div>
 
-    <footer>
-        <p>© 2026 Flask MySQL App | DevOps Practice Project</p>
-    </footer>
+    {% endfor %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</div>
 
 </body>
 </html>
-```
